@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualización de Datos - Universidad Austral de Chile</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <style>
+        /* Estilos adicionales para las secciones */
+        .section {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.5s;
+        }
+        .section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .highcharts-figure {
+            min-width: 360px; 
+            max-width: 1200px;
+            margin: 1em auto;
+        }
+        .chart-container {
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Principal -->
+    <header class="main-header">
+        <div class="logos-container">
+            <img src="thumbnail_Logo observa.png" alt="Universidad Austral de Chile - Centro de Estudios Regionales" class="header-logo-left">
+            <img src="thumbnail_images.png" alt="Logo Región" class="header-logo">
+        </div>
+        <div class="header-content">
+            <h1 class="main-title" id="main-title">Análisis de Ventas y Empleo</h1>
+            <p class="subtitle" id="subtitle">Universidad Austral de Chile - Centro de Estudios Regionales</p>
+        </div>
+    </header>
+    
+    <!-- Navegación -->
+    <nav class="nav-container">
+        <div class="nav-links" id="nav-links">
+            <span class="nav-link active" onclick="showSection('ventas-comuna', this)">Ventas por Comuna</span>
+            <span class="nav-link" onclick="showSection('trabajadores-comuna', this)">Trabajadores por Comuna</span>
+            <span class="nav-link" onclick="showSection('evolucion-ventas', this)">Evolución Ventas</span>
+            <span class="nav-link" onclick="showSection('evolucion-empleo', this)">Evolución Empleo</span>
+        </div>
+    </nav>
+    
+    <!-- Container Principal -->
+    <div class="container">
+        
+        <!-- Sección 1: Ventas por Comuna -->
+        <section id="ventas-comuna" class="section active">
+            <h2 class="section-title">Ventas Promedio por Comuna (Top 15)</h2>
+            <figure class="highcharts-figure">
+                <div id="container_ventas_comuna" class="chart-container"></div>
+            </figure>
+        </section>
+
+        <!-- Sección 2: Trabajadores por Comuna -->
+        <section id="trabajadores-comuna" class="section">
+            <h2 class="section-title">Trabajadores Promedio por Comuna (Top 15)</h2>
+            <figure class="highcharts-figure">
+                <div id="container_trabajadores_comuna" class="chart-container"></div>
+            </figure>
+        </section>
+
+        <!-- Sección 3: Evolución Ventas -->
+        <section id="evolucion-ventas" class="section">
+            <h2 class="section-title">Evolución de Ventas Efectivas por Región</h2>
+            <figure class="highcharts-figure">
+                <div id="container_evolucion_ventas" class="chart-container"></div>
+            </figure>
+        </section>
+
+        <!-- Sección 4: Evolución Empleo -->
+        <section id="evolucion-empleo" class="section">
+            <h2 class="section-title">Evolución de Trabajadores Dependientes por Región</h2>
+            <figure class="highcharts-figure">
+                <div id="container_evolucion_empleo" class="chart-container"></div>
+            </figure>
+        </section>
+
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text" id="footer-text">
+            Desarrollado con Plantilla de Visualización<br>
+            Universidad Austral de Chile - Centro de Estudios Regionales
+        </p>
+        <img src="thumbnail_logo cer.png" alt="Universidad Austral de Chile - Centro de Estudios Regionales" class="footer-logo">
+    </footer>
+
+    <script>
+        // Lógica de Navegación
+        function showSection(sectionId, element) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            // Mostrar la seleccionada
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Actualizar estado del navbar
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            element.classList.add('active');
+
+            // Reflow de Highcharts para ajustar tamaño al mostrar
+            window.dispatchEvent(new Event('resize'));
+        }
+
+        // Datos Comunes
+        const categoriesComunas = ["Puerto Montt", "Concepción", "Osorno", "Talcahuano", "Temuco", "Los Ángeles", "San Pedro de la Paz", "Puerto Varas", "Valdivia", "Coronel", "Arauco", "Castro", "Hualpén", "Villarrica", "Lautaro"];
+        const uniqueColors = ["#FF5733", "#33FF57", "#3357FF", "#FF33A8", "#33FFF5", "#F3FF33", "#FF8633", "#8E44AD", "#3498DB", "#1ABC9C", "#F1C40F", "#E74C3C", "#2ECC71", "#9B59B6", "#34495E"];
+        const sourceText = 'Fuente: <a href="https://www.sii.cl/sobre_el_sii/estadisticas_de_empresas.html" target="_blank">SII - Estadísticas de Empresas</a>';
+
+        function getDataWithUniqueColors(values) {
+            return values.map((val, index) => ({
+                y: val,
+                color: uniqueColors[index]
+            }));
+        }
+
+        // --- Gráfico 1: Ventas por Comuna ---
+        Highcharts.chart('container_ventas_comuna', {
+            chart: { type: 'column' },
+            title: { text: 'Ventas Promedio por Comuna (Top 15)' },
+            subtitle: { text: sourceText },
+            xAxis: { categories: categoriesComunas },
+            yAxis: { title: { text: 'Ventas (UF)' } },
+            credits: { enabled: false },
+            plotOptions: { column: { borderRadius: '25%', colorByPoint: true } },
+            series: [{
+                name: 'Ventas Promedio (UF)',
+                data: getDataWithUniqueColors([58926934.2, 35083321.9, 23970988.71, 22433600.77, 22159007.48, 20132670.93, 11831708.11, 10837377.2, 9841382.03, 9774927.28, 8692734.03, 4734292.67, 2655484.37, 2479991.06, 2461391.14])
+            }]
+        });
+
+        // --- Gráfico 2: Trabajadores por Comuna ---
+        Highcharts.chart('container_trabajadores_comuna', {
+            chart: { type: 'column' },
+            title: { text: 'Trabajadores Promedio por Comuna (Top 15)' },
+            subtitle: { text: sourceText },
+            xAxis: { categories: categoriesComunas },
+            yAxis: { title: { text: 'Número de Trabajadores' } },
+            credits: { enabled: false },
+            plotOptions: { column: { borderRadius: '25%', colorByPoint: true } },
+            series: [{
+                name: 'Trabajadores Promedio',
+                data: getDataWithUniqueColors([25779.17, 32902.06, 13194.59, 10734.66, 25606.66, 16468.59, 7330.04, 4669.55, 10182.86, 6243.42, 2735.2, 3274.29, 2763.7, 2597.4, 1970.95])
+            }]
+        });
+
+        // --- Gráfico 3: Evolución Ventas ---
+        Highcharts.chart('container_evolucion_ventas', {
+            title: { text: 'Evolución de Ventas Efectivas por Región', align: 'left' },
+            subtitle: { text: sourceText, align: 'left' },
+            yAxis: { title: { text: 'Ventas (UF)' } },
+            xAxis: { accessibility: { rangeDescription: 'Rango: 2005 a 2024' } },
+            credits: { enabled: false },
+            legend: { layout: 'vertical', align: 'right', verticalAlign: 'middle' },
+            plotOptions: { series: { label: { enabled: false }, pointStart: 2005 } },
+            series: [{
+                name: 'Región del Biobío',
+                data: [403323367.17, 426042793.89, 444574544.02, 495513268.45, 446813026.59, 464688539.73, 670983237.16, 603119774.2, 595905992.36, 798328620.20, 651573139.63, 679772978.42, 680419934.33, 748228623.28, 813331446.16, 744502830.19, 888072900.84, 1001355286.96, 905546324.31, 941000637.86],
+                color: '#FF3355'
+            }, {
+                name: 'Región de Los Lagos',
+                data: [252715548.02, 297884504.86, 315544594.43, 331139439.42, 279966204.19, 304898015.18, 437218663.67, 383449624.52, 513166457.96, 587694058.68, 530190395.59, 524086252.85, 554928117.84, 666262782.51, 818119045.92, 734582698.25, 1011416822.92, 1022607953.42, 1024620662.07, 1090755798.76],
+                color: '#33CCFF'
+            }, {
+                name: 'Región de La Araucanía',
+                data: [118105912.25, 190145484.71, 140246506.27, 148483765.19, 144800532.11, 153724209.87, 172722465.82, 184917526.49, 196983241.46, 248138586.4, 223909996.18, 235597355.47, 237232436.11, 251236257.76, 252579820.89, 256799269.57, 319230154.07, 328109939.06, 316713539.32, 307471872.54],
+                color: '#33FF99'
+            }, {
+                name: 'Región de Los Ríos',
+                data: [66133956.69, 67390395.53, 77453695.16, 85418636.58, 79038356.2, 84957766.84, 102108744.07, 110348011.47, 105047234.16, 107323290.35, 104216664.92, 108401247.18, 115334579.01, 110675130.58, 115208130.49, 109213244.86, 132060703.04, 151138163.6, 144827859.01, 169832212.13],
+                color: '#FFCC00'
+            }]
+        });
+
+        // --- Gráfico 4: Evolución Empleo ---
+        Highcharts.chart('container_evolucion_empleo', {
+            title: { text: 'Evolución de Trabajadores Dependientes por Región', align: 'left' },
+            subtitle: { text: sourceText, align: 'left' },
+            yAxis: { title: { text: 'Número de Trabajadores' } },
+            xAxis: { accessibility: { rangeDescription: 'Rango: 2005 a 2024' } },
+            credits: { enabled: false },
+            legend: { layout: 'vertical', align: 'right', verticalAlign: 'middle' },
+            plotOptions: { series: { label: { enabled: false }, pointStart: 2005 } },
+            series: [{
+                name: 'Región del Biobío',
+                data: [379701, 413187, 438661, 451611, 432885, 454149, 485930, 489646, 478157, 481480, 495268, 505546, 511913, 540228, 554039, 519453, 551253, 577815, 559804, 558209],
+                color: '#FF3355'
+            }, {
+                name: 'Región de Los Lagos',
+                data: [233954, 253887, 273941, 287661, 261176, 252435, 277504, 287194, 293380, 308785, 312254, 315613, 322998, 342683, 355847, 351482, 375885, 385631, 375991, 368476],
+                color: '#33CCFF'
+            }, {
+                name: 'Región de La Araucanía',
+                data: [165620, 181268, 192659, 203689, 194168, 205985, 230970, 245465, 255514, 260050, 259794, 275904, 281087, 294459, 288363, 277211, 301283, 314565, 303094, 305220],
+                color: '#33FF99'
+            }, {
+                name: 'Región de Los Ríos',
+                data: [70021, 72580, 80635, 82217, 77808, 82462, 87575, 85203, 86017, 89341, 93493, 100542, 103149, 103484, 102170, 95594, 107632, 113799, 107492, 107237],
+                color: '#FFCC00'
+            }]
+        });
+    </script>
+</body>
+</html>

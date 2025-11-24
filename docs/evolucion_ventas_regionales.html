@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolución de Ventas Regionales</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <style>
+        .highcharts-figure, .highcharts-data-table table {
+            min-width: 360px; 
+            max-width: 1200px;
+            margin: 1em auto;
+        }
+        #container {
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+    <figure class="highcharts-figure">
+        <div id="container"></div>
+    </figure>
+
+    <script>
+        Highcharts.chart('container', {
+
+            title: {
+                text: 'Evolución de Ventas Efectivas por Región',
+                align: 'left'
+            },
+
+            subtitle: {
+                text: 'Fuente: <a href="https://www.sii.cl/sobre_el_sii/estadisticas_de_empresas.html" target="_blank">SII - Estadísticas de Empresas</a>',
+                align: 'left'
+            },
+
+            yAxis: {
+                title: {
+                    text: 'Ventas (UF)'
+                }
+            },
+
+            xAxis: {
+                accessibility: {
+                    rangeDescription: 'Rango: 2005 a 2024'
+                }
+            },
+
+            credits: {
+                enabled: false
+            },
+
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+
+            plotOptions: {
+                series: {
+                    label: {
+                        enabled: false
+                    },
+                    pointStart: 2005
+                }
+            },
+
+            series: [{
+                name: 'Región del Biobío',
+                data: [
+                    403323367.17, 426042793.89, 444574544.02, 495513268.45, 446813026.59, 
+                    464688539.73, 670983237.16, 603119774.2, 595905992.36, 798328620.20, 
+                    651573139.63, 679772978.42, 680419934.33, 748228623.28, 813331446.16, 
+                    744502830.19, 888072900.84, 1001355286.96, 905546324.31, 941000637.86
+                ],
+                color: '#FF3355'
+            }, {
+                name: 'Región de Los Lagos',
+                data: [
+                    252715548.02, 297884504.86, 315544594.43, 331139439.42, 279966204.19, 
+                    304898015.18, 437218663.67, 383449624.52, 513166457.96, 587694058.68, 
+                    530190395.59, 524086252.85, 554928117.84, 666262782.51, 818119045.92, 
+                    734582698.25, 1011416822.92, 1022607953.42, 1024620662.07, 1090755798.76
+                ],
+                color: '#33CCFF'
+            }, {
+                name: 'Región de La Araucanía',
+                data: [
+                    118105912.25, 190145484.71, 140246506.27, 148483765.19, 144800532.11, 
+                    153724209.87, 172722465.82, 184917526.49, 196983241.46, 248138586.4, 
+                    223909996.18, 235597355.47, 237232436.11, 251236257.76, 252579820.89, 
+                    256799269.57, 319230154.07, 328109939.06, 316713539.32, 307471872.54
+                ],
+                color: '#33FF99'
+            }, {
+                name: 'Región de Los Ríos',
+                data: [
+                    66133956.69, 67390395.53, 77453695.16, 85418636.58, 79038356.2, 
+                    84957766.84, 102108744.07, 110348011.47, 105047234.16, 107323290.35, 
+                    104216664.92, 108401247.18, 115334579.01, 110675130.58, 115208130.49, 
+                    109213244.86, 132060703.04, 151138163.6, 144827859.01, 169832212.13
+                ],
+                color: '#FFCC00'
+            }],
+
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+
+        });
+    </script>
+</body>
+</html>

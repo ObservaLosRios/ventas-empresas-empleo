@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolución de Trabajadores Regionales</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <style>
+        .highcharts-figure, .highcharts-data-table table {
+            min-width: 360px; 
+            max-width: 1200px;
+            margin: 1em auto;
+        }
+        #container {
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+    <figure class="highcharts-figure">
+        <div id="container"></div>
+    </figure>
+
+    <script>
+        Highcharts.chart('container', {
+
+            title: {
+                text: 'Evolución de Trabajadores Dependientes por Región',
+                align: 'left'
+            },
+
+            subtitle: {
+                text: 'Fuente: <a href="https://www.sii.cl/sobre_el_sii/estadisticas_de_empresas.html" target="_blank">SII - Estadísticas de Empresas</a>',
+                align: 'left'
+            },
+
+            yAxis: {
+                title: {
+                    text: 'Número de Trabajadores'
+                }
+            },
+
+            xAxis: {
+                accessibility: {
+                    rangeDescription: 'Rango: 2005 a 2024'
+                }
+            },
+
+            credits: {
+                enabled: false
+            },
+
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+
+            plotOptions: {
+                series: {
+                    label: {
+                        enabled: false
+                    },
+                    pointStart: 2005
+                }
+            },
+
+            series: [{
+                name: 'Región del Biobío',
+                data: [
+                    379701, 413187, 438661, 451611, 432885, 454149, 485930, 489646, 478157, 481480, 
+                    495268, 505546, 511913, 540228, 554039, 519453, 551253, 577815, 559804, 558209
+                ],
+                color: '#FF3355'
+            }, {
+                name: 'Región de Los Lagos',
+                data: [
+                    233954, 253887, 273941, 287661, 261176, 252435, 277504, 287194, 293380, 308785, 
+                    312254, 315613, 322998, 342683, 355847, 351482, 375885, 385631, 375991, 368476
+                ],
+                color: '#33CCFF'
+            }, {
+                name: 'Región de La Araucanía',
+                data: [
+                    165620, 181268, 192659, 203689, 194168, 205985, 230970, 245465, 255514, 260050, 
+                    259794, 275904, 281087, 294459, 288363, 277211, 301283, 314565, 303094, 305220
+                ],
+                color: '#33FF99'
+            }, {
+                name: 'Región de Los Ríos',
+                data: [
+                    70021, 72580, 80635, 82217, 77808, 82462, 87575, 85203, 86017, 89341, 
+                    93493, 100542, 103149, 103484, 102170, 95594, 107632, 113799, 107492, 107237
+                ],
+                color: '#FFCC00'
+            }],
+
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+
+        });
+    </script>
+</body>
+</html>
