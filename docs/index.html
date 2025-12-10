@@ -62,7 +62,7 @@
         
         <!-- Sección 1: Ventas por Comuna -->
         <section id="ventas-comuna" class="section active">
-            <h2 class="section-title">Ventas promedio por comuna expresado en UF</h2>
+            <h2 class="section-title">Top 15 comunas por ventas (UF, 2024)</h2>
             <figure class="highcharts-figure">
                 <div id="container_ventas_comuna" class="chart-container"></div>
             </figure>
@@ -70,7 +70,7 @@
 
         <!-- Sección 2: Trabajadores por Comuna -->
         <section id="trabajadores-comuna" class="section">
-            <h2 class="section-title">Cantidad de trabajadores promedio por comuna</h2>
+            <h2 class="section-title">Top 15 comunas por trabajadores (2024)</h2>
             <figure class="highcharts-figure">
                 <div id="container_trabajadores_comuna" class="chart-container"></div>
             </figure>
@@ -134,8 +134,8 @@
         // --- Gráfico 1: Ventas por Comuna ---
         Highcharts.chart('container_ventas_comuna', {
             chart: { type: 'column' },
-            title: { text: 'Ventas promedio por comuna expresado en UF (Top 15, año 2024)' },
-            subtitle: { text: sourceText },
+            title: { text: 'Ventas promedio en UF (Top 15 comunas)' },
+            subtitle: { text: sourceText, align: 'right', verticalAlign: 'bottom', x: -10 },
             xAxis: { categories: categoriesComunas },
             yAxis: { title: { text: 'Ventas (UF)' } },
             credits: { enabled: false },
@@ -149,8 +149,8 @@
         // --- Gráfico 2: Trabajadores por Comuna ---
         Highcharts.chart('container_trabajadores_comuna', {
             chart: { type: 'column' },
-            title: { text: 'Cantidad de trabajadores promedio por comuna (Top 15, año 2024)' },
-            subtitle: { text: sourceText },
+            title: { text: 'Trabajadores dependientes promedio (Top 15 comunas)' },
+            subtitle: { text: sourceText, align: 'right', verticalAlign: 'bottom', x: -10 },
             xAxis: { categories: categoriesComunas },
             yAxis: { title: { text: 'Número de Trabajadores' } },
             credits: { enabled: false },
@@ -163,8 +163,8 @@
 
         // --- Gráfico 3: Evolución Ventas ---
         Highcharts.chart('container_evolucion_ventas', {
-            title: { text: 'Evolución de Ventas Efectivas por Región', align: 'left' },
-            subtitle: { text: sourceText, align: 'left' },
+            title: { text: 'Evolución de Ventas Efectivas por Región', align: 'center' },
+            subtitle: { text: sourceText, align: 'right', verticalAlign: 'bottom', x: -10 },
             yAxis: { title: { text: 'Ventas (UF)' } },
             xAxis: { title: { text: 'Año' }, accessibility: { rangeDescription: 'Rango: 2005 a 2024' } },
             credits: { enabled: false },
@@ -191,8 +191,8 @@
 
         // --- Gráfico 4: Evolución Empleo ---
         Highcharts.chart('container_evolucion_empleo', {
-            title: { text: 'Evolución de Trabajadores Dependientes por Región', align: 'left' },
-            subtitle: { text: sourceText, align: 'left' },
+            title: { text: 'Evolución de Trabajadores Dependientes por Región', align: 'center' },
+            subtitle: { text: sourceText, align: 'right', verticalAlign: 'bottom', x: -10 },
             yAxis: { title: { text: 'Número de Trabajadores' } },
             xAxis: { title: { text: 'Año' }, accessibility: { rangeDescription: 'Rango: 2005 a 2024' } },
             credits: { enabled: false },
